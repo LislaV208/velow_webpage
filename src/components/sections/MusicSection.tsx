@@ -11,7 +11,7 @@ const MusicSection = () => {
         <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent" />
       </div>
       
-      <div className="relative max-w-7xl mx-auto px-4 w-full h-full flex items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full h-full flex items-center">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

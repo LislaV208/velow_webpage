@@ -19,7 +19,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="relative text-center px-4 z-10"
+        className="relative text-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10"
       >
         <motion.div 
           className="mb-8 flex justify-center"

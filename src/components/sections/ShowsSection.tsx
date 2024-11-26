@@ -13,7 +13,7 @@ const ShowsSection = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="max-w-7xl mx-auto px-4 w-full"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full"
       >
         <h2 className="text-4xl md:text-5xl font-display mb-12 text-center">UPCOMING SHOWS</h2>
         <div className="grid md:grid-cols-3 gap-8">
