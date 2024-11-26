@@ -56,8 +56,9 @@ const MusicSection = () => {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent rounded-lg transform rotate-6" />
             <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-transparent rounded-lg transform -rotate-6" />
+            {/* Using a dark, moody concert photo as album cover */}
             <img 
-              src="/album-cover.jpg" 
+              src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80" 
               alt="Wizje Album Cover"
               className="relative w-full h-full object-cover rounded-lg shadow-2xl shadow-purple-900/20"
             />

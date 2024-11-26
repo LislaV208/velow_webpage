@@ -5,22 +5,43 @@ const products = [
     id: 1,
     name: 'WIZJE T-Shirt',
     price: '€29.99',
-    image: '/merch/tshirt.jpg',
+    image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80',
     description: 'Limited edition t-shirt featuring our debut album artwork'
   },
   {
     id: 2,
     name: 'Band Hoodie',
     price: '€49.99',
-    image: '/merch/hoodie.jpg',
+    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&q=80',
     description: 'Premium quality hoodie with embroidered logo'
   },
   {
     id: 3,
     name: 'Vinyl Record',
     price: '€24.99',
-    image: '/merch/vinyl.jpg',
+    image: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=800&q=80',
     description: 'WIZJE album on 180g vinyl with exclusive artwork'
+  },
+  {
+    id: 4,
+    name: 'Band Cap',
+    price: '€19.99',
+    image: 'https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=800&q=80',
+    description: 'Embroidered snapback cap with band logo'
+  },
+  {
+    id: 5,
+    name: 'Tour Poster',
+    price: '€14.99',
+    image: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=800&q=80',
+    description: 'Limited edition tour poster, hand-numbered'
+  },
+  {
+    id: 6,
+    name: 'Band Tote Bag',
+    price: '€16.99',
+    image: 'https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=800&q=80',
+    description: 'Eco-friendly cotton tote with album artwork'
   }
 ];
 
