@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { bandMembers } from '../data/bandMembers';
 import MemberCard from '../components/MemberCard';
 
+
 const Home = () => {
   const { scrollYProgress } = useScroll();
   const parallaxY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
