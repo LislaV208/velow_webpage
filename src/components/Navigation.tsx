@@ -1,9 +1,10 @@
-import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect, useState, useMemo } from 'react';
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const sections = useMemo(() => [
     { id: 'home', label: 'Home' },
@@ -17,10 +18,8 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Update background opacity based on scroll
       setIsScrolled(window.scrollY > 50);
 
-      // Find the current section
       let maxVisibleRatio = 0;
       let visibleSection = activeSection;
 
@@ -31,7 +30,6 @@ const Navigation = () => {
         const rect = element.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
-        // Calculate visibility ratio
         const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
         const sectionHeight = rect.height;
         const visibilityRatio = visibleHeight / sectionHeight;
@@ -48,7 +46,7 @@ const Navigation = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeSection, sections]);
 
@@ -56,6 +54,7 @@ const Navigation = () => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
     }
   };
 
@@ -65,24 +64,37 @@ const Navigation = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black/80 backdrop-blur-lg' : 'bg-transparent'
+        isScrolled || isMenuOpen ? 'bg-black/80 backdrop-blur-lg' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <ul className="flex justify-center items-center space-x-1 md:space-x-2">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden absolute right-4 top-4 z-50 p-2"
+        >
+          <div className="space-y-2">
+            <span className={`block w-8 h-0.5 bg-white transition-transform duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2.5' : ''}`} />
+            <span className={`block w-8 h-0.5 bg-white transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block w-8 h-0.5 bg-white transition-transform duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2.5' : ''}`} />
+          </div>
+        </button>
+
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex justify-center items-center space-x-4">
           {sections.map(({ id, label }) => (
             <li key={id}>
               <button
                 onClick={() => scrollToSection(id)}
-                className={`relative px-3 py-2 text-sm font-mono transition-colors
+                className={`relative px-4 py-2 text-base md:text-lg font-display uppercase tracking-wider transition-colors
                   ${activeSection === id ? 'text-white' : 'text-gray-400 hover:text-white'}
                 `}
               >
                 {label}
                 {activeSection === id && (
                   <motion.div
-                    layoutId="activeSection"
-                    className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white to-transparent"
+                    layoutId="activeSection-desktop"
+                    className="absolute bottom-0 left-0 w-full h-0.5 bg-white"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -90,6 +102,40 @@ const Navigation = () => {
             </li>
           ))}
         </ul>
+
+        {/* Mobile Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ 
+            opacity: isMenuOpen ? 1 : 0,
+            y: isMenuOpen ? 0 : -20,
+            display: isMenuOpen ? 'block' : 'none'
+          }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden"
+        >
+          <ul className="pt-16 pb-8 space-y-4">
+            {sections.map(({ id, label }) => (
+              <li key={id} className="text-center">
+                <button
+                  onClick={() => scrollToSection(id)}
+                  className={`relative px-4 py-2 text-lg font-display uppercase tracking-wider transition-colors
+                    ${activeSection === id ? 'text-white' : 'text-gray-400 hover:text-white'}
+                  `}
+                >
+                  {label}
+                  {activeSection === id && (
+                    <motion.div
+                      layoutId="activeSection-mobile"
+                      className="absolute bottom-0 left-0 w-full h-0.5 bg-white"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </div>
     </motion.nav>
   );
