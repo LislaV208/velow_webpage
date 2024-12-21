@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [shouldStickToTop, setShouldStickToTop] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const sections = useMemo(() => [
     { id: 'home', label: 'Home' },
@@ -18,7 +20,27 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      // setIsScrolled(window.scrollY > 50);
+      
+      const heroSection = document.getElementById('home');
+      const aboutSection = document.getElementById('about');
+
+      if (heroSection && aboutSection && navRef.current) {
+        // const heroRect = heroSection.getBoundingClientRect();
+        const aboutRect = aboutSection.getBoundingClientRect();
+        const navRect = navRef.current.getBoundingClientRect();
+
+        // Jeśli jesteśmy w Hero i przewinęliśmy do samej góry, resetujemy sticky
+        if (aboutRect.top - navRect.height >= 0) {
+          setShouldStickToTop(false);
+          // setIsScrolled(false);
+        } 
+        // W przeciwnym razie przyklejamy do góry, gdy nawigacja dotknie górnej krawędzi
+        else {
+          setShouldStickToTop(navRect.top <= 0);
+          // setIsScrolled(true);
+        }
+      }
 
       let maxVisibleRatio = 0;
       let visibleSection = activeSection;
@@ -42,6 +64,7 @@ const Navigation = () => {
 
       if (visibleSection !== activeSection) {
         setActiveSection(visibleSection);
+        setIsScrolled(visibleSection !== 'home');
       }
     };
 
@@ -60,13 +83,28 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      ref={navRef}
+      initial={false}
+      className={`left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || isMenuOpen ? 'bg-black/80 backdrop-blur-lg' : 'bg-transparent'
-      }`}
+      } ${shouldStickToTop ? 'fixed top-0 w-full' : ''}`}
     >
+      {/* Klasy CSS dla nawigacji:
+        1. Podstawowe style: 
+           - left-0 right-0: rozciągnięcie na całą szerokość
+           - z-50: wysoki z-index, aby nav był nad innymi elementami
+           - transition-all duration-300: płynne animacje wszystkich zmian
+
+        2. Dynamiczne tło (zależne od przewinięcia lub otwarcia menu):
+           - gdy isScrolled lub isMenuOpen jest true:
+             * bg-black/80: czarne tło z 80% przezroczystością
+             * backdrop-blur-lg: rozmycie tła
+           - w przeciwnym razie: bg-transparent (przezroczyste tło)
+
+        3. Pozycjonowanie (zależne od shouldStickToTop):
+           - gdy true: fixed top-0 w-full (przyklejenie do góry ekranu)
+           - gdy false: normalne pozycjonowanie w dokumencie
+      */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         {/* Mobile Menu Button */}
         <button
