@@ -33,12 +33,12 @@ const Navigation = () => {
         // Jeśli jesteśmy w Hero i przewinęliśmy do samej góry, resetujemy sticky
         if (aboutRect.top - navRect.height >= 0) {
           setShouldStickToTop(false);
-          // setIsScrolled(false);
+          setIsScrolled(false);
         } 
         // W przeciwnym razie przyklejamy do góry, gdy nawigacja dotknie górnej krawędzi
         else {
           setShouldStickToTop(navRect.top <= 0);
-          // setIsScrolled(true);
+          setIsScrolled(true);
         }
       }
 
@@ -64,7 +64,7 @@ const Navigation = () => {
 
       if (visibleSection !== activeSection) {
         setActiveSection(visibleSection);
-        setIsScrolled(visibleSection !== 'home');
+        // setIsScrolled(visibleSection !== 'home');
       }
     };
 
@@ -124,7 +124,7 @@ const Navigation = () => {
             <li key={id}>
               <button
                 onClick={() => scrollToSection(id)}
-                className={`relative px-4 py-2 text-base md:text-lg font-display uppercase tracking-wider transition-colors
+                className={`relative px-4 py-2 text-2xl font-display uppercase tracking-wider transition-colors
                   ${activeSection === id ? 'text-white' : 'text-gray-400 hover:text-white'}
                 `}
               >
