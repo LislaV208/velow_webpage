@@ -29,7 +29,7 @@ const HeroSection = () => {
           <img 
             src="/logo_transparent.png" 
             alt="Velow Logo"
-            className="mt-[-37vh] w-max h-max scale-[1.0]"
+            className="mt-[5vh] w-[100%] h-auto mx-auto"
           />
         </motion.div>
       </motion.div>
